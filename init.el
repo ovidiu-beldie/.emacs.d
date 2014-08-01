@@ -1,12 +1,11 @@
 (require 'package)
 
-;; (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-;;                          ("gnu" . "http://elpa.gnu.org/packages/")))
-
 (add-to-list 'package-archives
-             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+(add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+ 	     '("gnu" . "http://elpa.gnu.org/packages/"))
 
 (package-initialize)
 
@@ -17,6 +16,8 @@
 (defvar my-packages '(
                       ;dirtree
                       ;tree-mode
+		      epl
+		      dash
                       better-defaults
                       clojure-mode
                       clojure-test-mode
@@ -24,15 +25,13 @@
                       rainbow-delimiters
 		      popup
 		      fuzzy
-                      clojure-cheatsheet
+                      ;clojure-cheatsheet
                       ;clojure-snippets 
                       clojurescript-mode
                       ;company-modeeva
-                      ;company-cider
+                      ;company-cide
                       auto-complete
                       ac-nrepl
-                      ;noctilux-theme
-                      zenburn-theme
                       ;sublime-themes
                       exec-path-from-shell
                       ;transpose-frame
