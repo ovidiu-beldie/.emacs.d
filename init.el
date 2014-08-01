@@ -14,10 +14,6 @@
 ; run M-x eval-buffer
 ; M-x package-list-packages to view available packages
 (defvar my-packages '(
-                      ;dirtree
-                      ;tree-mode
-		      epl
-		      dash
                       paredit
                       better-defaults
                       clojure-mode
@@ -26,16 +22,12 @@
                       rainbow-delimiters
 		      popup
 		      fuzzy
-                      ;clojure-cheatsheet
+                      clojure-cheatsheet
                       ;clojure-snippets 
                       clojurescript-mode
-                      ;company-modeeva
-                      ;company-cide
                       auto-complete
                       ac-nrepl
-                      ;sublime-themes
                       exec-path-from-shell
-                      ;transpose-frame
                       ))
 
 (dolist (p my-packages)
