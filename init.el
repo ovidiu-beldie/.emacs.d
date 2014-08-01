@@ -18,6 +18,7 @@
                       ;tree-mode
 		      epl
 		      dash
+                      paredit
                       better-defaults
                       clojure-mode
                       clojure-test-mode
