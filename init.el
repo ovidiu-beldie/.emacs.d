@@ -1,8 +1,12 @@
 (require 'package)
 
-(setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")))
+;; (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
+;;                          ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+;;                          ("gnu" . "http://elpa.gnu.org/packages/")))
+
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 (package-initialize)
 
@@ -10,7 +14,10 @@
 ;;; List of packages to install
 ; run M-x eval-buffer
 ; M-x package-list-packages to view available packages
-(defvar my-packages '(better-defaults
+(defvar my-packages '(
+                      ;dirtree
+                      ;tree-mode
+                      better-defaults
                       clojure-mode
                       clojure-test-mode
                       cider
@@ -20,20 +27,22 @@
                       clojure-cheatsheet
                       ;clojure-snippets 
                       clojurescript-mode
-                      ;company-mode
+                      ;company-modeeva
                       ;company-cider
                       auto-complete
                       ac-nrepl
-                      noctilux-theme
+                      ;noctilux-theme
                       zenburn-theme
+                      ;sublime-themes
                       exec-path-from-shell
+                      ;transpose-frame
                       ))
 
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
-(load-theme 'noctilux t)
+
 
 ;;;;;;;;;;;;;;;;;;;
 ;; Generic settings
@@ -73,6 +82,7 @@
 
 (setq default-directory "~")
 
+
 ;; Enable paredit
 (autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
 (add-hook 'emacs-lisp-mode-hook			  #'enable-paredit-mode)
@@ -89,10 +99,28 @@
 
 ;;; More specific configs
 (add-to-list 'load-path "~/.emacs.d")
+(load-library "utilities")
 (load-library "clojure")
+
+;;; Themes
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ;;; Add system path to emacs shell on OSX
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("9bcb8ee9ea34ec21272bb6a2044016902ad18646bd09fdd65abae1264d258d89" "ce79400f46bd76bebeba655465f9eadf60c477bd671cbcd091fe871d58002a88" "33c5a452a4095f7e4f6746b66f322ef6da0e770b76c0ed98a438e76c497040bb" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(load-theme 'hickey t)
