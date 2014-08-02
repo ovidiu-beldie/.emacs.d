@@ -28,6 +28,7 @@
                       auto-complete
                       ac-nrepl
                       exec-path-from-shell
+                      window-number
                       ))
 
 (dolist (p my-packages)
