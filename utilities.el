@@ -10,3 +10,6 @@
 (require 'dirtree)
 
 (require 'transpose-frame)
+
+(require 'projectile)
+(projectile-global-mode)
