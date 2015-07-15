@@ -5,10 +5,13 @@
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'clojure-mode-hook 'subword-mode)
 
+
 ;; cider
 (require 'cider)
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'cider-mode-hook #'eldoc-mode)
+
 (setq nrepl-log-messages t)
 (setq cider-repl-use-clojure-font-lock t)
 
@@ -20,13 +23,21 @@
 (setq ac-use-fuzzy 1)
 (ac-config-default)
 
+(require 'ac-cider)
 
- (require 'ac-cider)
- (add-hook 'cider-mode-hook 'ac-flyspell-workaround)
- (add-hook 'cider-mode-hook 'ac-cider-setup)
- (add-hook 'cider-repl-mode-hook 'ac-cider-setup)
- (eval-after-load "auto-complete"
-   '(progn
-      (add-to-list 'ac-modes 'cider-mode)
-      (add-to-list 'ac-modes 'cider-repl-mode)))
+;trial
+;(eval-after-load 'flycheck '(flycheck-clojure-setup))
+
+
+;;; FOLLOWING IS DEPRECATED
+;(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+
+;(add-hook 'cider-mode-hook 'ac-cider-setup)
+;(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+
+;(eval-after-load "auto-complete"
+;  '(progn
+;     (add-to-list 'ac-modes 'cider-mode)
+;     (add-to-list 'ac-modes 'cider-repl-mode)))
+
 

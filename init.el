@@ -15,24 +15,22 @@
 ; M-x package-list-packages to view available packages
 (defvar my-packages '(
                       package
+                      clojure-mode ; auto-install sometimes fails
+		      ;better-defaults -- install manually from github
+                      ido-ubiquitous ;trial
                       paredit
-                      better-defaults
-                      clojure-mode
-                      ;clojure-test-mode ;- deprecated but cider test doesn't work for my setup
                       cider
                       rainbow-delimiters
 		      popup
 		      fuzzy
                       clojure-cheatsheet
                       ;clojure-snippets 
-                      clojurescript-mode
-                      auto-complete
-                      ;ac-nrepl ; still needed?
+                      company
+                      auto-complete 
                       ac-cider
                       exec-path-from-shell
-                      window-number   ; shortcut to switch to window 
-                      projectile      ; remembers project
-                      python-mode
+                      window-numbering   ; shortcut to switch to window 
+                      projectile      ; remembers project, activate later
                       jedi   ;python
                       ))
 
@@ -107,9 +105,12 @@
 (show-paren-mode t)
 
 ;; Enable ido
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
 (ido-mode 1) 
+(setq ido-everywhere t)
+(ido-ubiquitous-mode 1)
+(setq ido-enable-flex-matching t)
+
+(global-company-mode)
 
 ;; Highlight regions and add special behaviours to regions
 ;; "C-h d transient" for more info
