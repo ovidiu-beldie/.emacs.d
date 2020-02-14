@@ -1,5 +1,6 @@
+.*
+*~
 elpa/*
-url/*
-*.dat
-places
-*history
+*.data
+amx*
+transient/*
