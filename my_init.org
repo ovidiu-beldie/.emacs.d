@@ -1,0 +1,196 @@
+* Interoperability
+** Hash key on Mac, UK keyboard
+ #+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+ #+END_SRC
+* Packages
+** Productivity
+*** Auto package update
+#+BEGIN_SRC emacs-lisp
+(use-package auto-package-update
+  :config
+  (progn
+    (setq auto-package-update-delete-old-versions t)
+    (setq auto-package-update-hide-results t)
+    (auto-package-update-maybe)))
+#+END_SRC
+*** Try - ephemeral packages
+#+BEGIN_SRC emacs-lisp
+(use-package try)
+#+END_SRC
+*** Which key - key info as you type
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :config (which-key-mode 1))
+#+END_SRC
+*** Org
+**** Bullets
+ #+BEGIN_SRC emacs-lisp
+ (use-package org-bullets
+   :hook (org-mode . org-bullets-mode))
+ #+END_SRC
+*** AMX - sort M-X commands by popularity
+#+BEGIN_SRC emacs-lisp
+(use-package amx
+  :after ivy
+  :custom (amx-backend 'auto)
+  :config (amx-mode 1))
+#+END_SRC
+*** Avy - lexical quick jump
+#+BEGIN_SRC emacs-lisp
+(use-package avy
+  :bind (("C-:" . avy-goto-char)
+	 ("C-'" . avy-goto-char-2)
+	 ("M-g f" . avy-goto-line)))
+#+END_SRC
+*** Ivy, Swiper, Counsel - quick search and suggestions
+**** Counsel
+Counsel brings in ivy ans swiper
+TODO: remove what I don't use
+#+BEGIN_SRC emacs-lisp
+(use-package counsel
+  :ensure t
+  :config
+  (progn
+    ;;; https://oremacs.com/swiper/
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
+
+    ;; Ivy-based interface to standard commands
+    (global-set-key (kbd "C-s") 'swiper-isearch)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "M-y") 'counsel-yank-pop)
+    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-find-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "<f2> j") 'counsel-set-variable)
+    (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+    (global-set-key (kbd "C-c v") 'ivy-push-view)
+    (global-set-key (kbd "C-c V") 'ivy-pop-view)
+
+    ;; Ivy-based interface to shell and system tools
+    (global-set-key (kbd "C-c c") 'counsel-compile)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c j") 'counsel-git-grep)
+    (global-set-key (kbd "C-c L") 'counsel-git-log)
+    (global-set-key (kbd "C-c k") 'counsel-rg)
+    (global-set-key (kbd "C-c m") 'counsel-linux-app)
+    (global-set-key (kbd "C-c n") 'counsel-fzf)
+    (global-set-key (kbd "C-x l") 'counsel-locate)
+    (global-set-key (kbd "C-c J") 'counsel-file-jump)
+    (global-set-key (kbd "C-c w") 'counsel-wmctrl)
+
+    ;; Ivy-resume and other commands
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "C-c b") 'counsel-bookmark)
+    (global-set-key (kbd "C-c d") 'counsel-descbinds)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c o") 'counsel-outline)
+    (global-set-key (kbd "C-c t") 'counsel-load-theme)
+    (global-set-key (kbd "C-c F") 'counsel-org-file)))
+#+END_SRC
+**** Ivy-Rich
+#+BEGIN_SRC emacs-lisp
+(use-package ivy-rich
+  :config
+  (ivy-rich-mode 1))
+#+END_SRC
+*** Syntax checking
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :init (global-flycheck-mode))
+#+END_SRC
+*** Auto-completion
+#+BEGIN_SRC emacs-lisp
+(use-package company
+  :config (global-company-mode))
+#+END_SRC
+*** Anzu - matches to total ratio
+#+BEGIN_SRC emacs-lisp
+(use-package anzu
+  :config
+  (global-anzu-mode +1))
+#+END_SRC
+*** Ace-Window - jump between screens
+#+BEGIN_SRC emacs-lisp
+(use-package ace-window
+  :ensure t
+  :init
+  (progn
+    (global-set-key [remap other-window] 'ace-window)
+    (custom-set-faces
+     '(aw-leading-char-face
+       ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
+#+END_SRC
+*** Expand region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
+#+END_SRC
+*** Snippets
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet)
+#+END_SRC
+** Coding
+*** LSP - language server protocol
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui
+  :hook lsp-mode)
+#+END_SRC
+* Convenience
+** y for yes, n for no
+#+BEGIN_SRC emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+** Ivy fuzzy search except swiper
+#+BEGIN_SRC emacs-lisp
+(setq ivy-re-builders-alist
+      '((swiper . ivy--regex-plus)
+        (t      . ivy--regex-fuzzy)))
+#+END_SRC
+** List buufer using ibuffer
+#+BEGIN_SRC emacs-lisp
+(defalias 'list-buffers 'ibuffer-other-window)
+#+END_SRC
+* User interface
+** Start full screen
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+END_SRC
+** Themes
+#+BEGIN_SRC emacs-lisp
+(use-package zenburn-theme)
+(use-package doom-themes)
+(use-package color-theme-sanityinc-solarized)
+(use-package material-theme)
+(use-package gruvbox-theme)
+(use-package ample-theme)
+(use-package sublime-themes)
+(use-package darktooth-theme)
+#+END_SRC
+** No tool bar
+#+BEGIN_SRC emacs-lisp
+(tool-bar-mode 0)
+#+END_SRC
+** No startup screen
+#+BEGIN_SRC emacs-lisp
+(setq inhibit-startup-screen t)
+#+END_SRC
+** Visible bell
+#+BEGIN_SRC emacs-lisp
+(setq visible-bell t)
+#+END_SRC
+** No scroll bars
+#+BEGIN_SRC emacs-lisp
+(scroll-bar-mode -1)
+#+END_SRC
+
+#+RESULTS:
