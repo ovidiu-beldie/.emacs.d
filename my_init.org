@@ -1,196 +1,206 @@
 * Interoperability
 ** Hash key on Mac, UK keyboard
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
- #+END_SRC
+   #+END_SRC
+
 * Packages
-** Productivity
-*** Auto package update
-#+BEGIN_SRC emacs-lisp
+** Keep packages update
+#+begin_src emacs-lisp
 (use-package auto-package-update
   :config
-  (progn
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe)))
-#+END_SRC
-*** Try - ephemeral packages
-#+BEGIN_SRC emacs-lisp
-(use-package try)
-#+END_SRC
-*** Which key - key info as you type
-#+BEGIN_SRC emacs-lisp
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+#+end_src
+
+* Completions
+** Completion: ivy, swiper, counsel
+   #+begin_src emacs-lisp
+ (use-package counsel
+ :diminish ivy-mode
+   :config 
+   (ivy-mode 1)
+   (setq ivy-use-virtual-buffers t)   ; recent files to ivy-switch-buffer
+   (setq ivy-count-format "%d/%d ")   ; curr and total nb
+:bind ("C-s" . swiper-isearch))
+(counsel-mode 1)
+   #+end_src
+** Autocomplete
+   #+begin_src emacs-lisp
+ (use-package company
+   :diminish
+   :config (global-company-mode))
+   #+end_src
+** Snippets
+#+begin_src emacs-lisp
+(use-package yasnippet
+:diminish
+:config (yas-global-mode 1))
+#+end_src
+** Which key
+#+begin_src emacs-lisp
 (use-package which-key
-  :config (which-key-mode 1))
-#+END_SRC
-*** Org
-**** Bullets
- #+BEGIN_SRC emacs-lisp
- (use-package org-bullets
-   :hook (org-mode . org-bullets-mode))
- #+END_SRC
-*** AMX - sort M-X commands by popularity
-#+BEGIN_SRC emacs-lisp
-(use-package amx
-  :after ivy
-  :custom (amx-backend 'auto)
-  :config (amx-mode 1))
-#+END_SRC
-*** Avy - lexical quick jump
-#+BEGIN_SRC emacs-lisp
+:diminish
+:config (which-key-mode 1))
+#+end_src
+
+* Navigation
+** Avy: jump to text
+#+begin_src emacs-lisp
 (use-package avy
-  :bind (("C-:" . avy-goto-char)
-	 ("C-'" . avy-goto-char-2)
-	 ("M-g f" . avy-goto-line)))
-#+END_SRC
-*** Ivy, Swiper, Counsel - quick search and suggestions
-**** Counsel
-Counsel brings in ivy ans swiper
-TODO: remove what I don't use
-#+BEGIN_SRC emacs-lisp
-(use-package counsel
+:diminish
+:bind (("C-:" . avy-goto-char)
+("C-'" . avy-goto-char-2)
+("M-g w" . avy-goto-word-1)
+("M-g f" . avy-goto-line)))
+#+end_src
+* Org
+
+** Bullets
+   #+BEGIN_SRC emacs-lisp
+(use-package org-bullets
+  :hook (org-mode-hook . org-bullets-mode))
+   #+END_SRC
+
+* Eye candy
+** All the icons
+   #+begin_src emacs-lisp
+(use-package all-the-icons)
+   #+end_src
+
+** Doom themes
+   #+begin_src emacs-lisp
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+   #+end_src
+
+** Doom modeline
+   #+begin_src emacs-lisp
+(use-package doom-modeline
   :ensure t
-  :config
-  (progn
-    ;;; https://oremacs.com/swiper/
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    (setq ivy-count-format "(%d/%d) ")
+  :init (doom-modeline-mode 1))
 
-    ;; Ivy-based interface to standard commands
-    (global-set-key (kbd "C-s") 'swiper-isearch)
-    (global-set-key (kbd "M-x") 'counsel-M-x)
-    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-    (global-set-key (kbd "M-y") 'counsel-yank-pop)
-    (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-    (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-    (global-set-key (kbd "<f1> l") 'counsel-find-library)
-    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-    (global-set-key (kbd "<f2> j") 'counsel-set-variable)
-    (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-    (global-set-key (kbd "C-c v") 'ivy-push-view)
-    (global-set-key (kbd "C-c V") 'ivy-pop-view)
+;; How tall the mode-line should be. It's only respected in GUI.
+;; If the actual char height is larger, it respects the actual height.
+(setq doom-modeline-height 25)
 
-    ;; Ivy-based interface to shell and system tools
-    (global-set-key (kbd "C-c c") 'counsel-compile)
-    (global-set-key (kbd "C-c g") 'counsel-git)
-    (global-set-key (kbd "C-c j") 'counsel-git-grep)
-    (global-set-key (kbd "C-c L") 'counsel-git-log)
-    (global-set-key (kbd "C-c k") 'counsel-rg)
-    (global-set-key (kbd "C-c m") 'counsel-linux-app)
-    (global-set-key (kbd "C-c n") 'counsel-fzf)
-    (global-set-key (kbd "C-x l") 'counsel-locate)
-    (global-set-key (kbd "C-c J") 'counsel-file-jump)
-    (global-set-key (kbd "C-c w") 'counsel-wmctrl)
+;; How wide the mode-line bar should be. It's only respected in GUI.
+(setq doom-modeline-bar-width 3)
 
-    ;; Ivy-resume and other commands
-    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "C-c b") 'counsel-bookmark)
-    (global-set-key (kbd "C-c d") 'counsel-descbinds)
-    (global-set-key (kbd "C-c g") 'counsel-git)
-    (global-set-key (kbd "C-c o") 'counsel-outline)
-    (global-set-key (kbd "C-c t") 'counsel-load-theme)
-    (global-set-key (kbd "C-c F") 'counsel-org-file)))
-#+END_SRC
-**** Ivy-Rich
-#+BEGIN_SRC emacs-lisp
-(use-package ivy-rich
-  :config
-  (ivy-rich-mode 1))
-#+END_SRC
-*** Syntax checking
-#+BEGIN_SRC emacs-lisp
-(use-package flycheck
-  :init (global-flycheck-mode))
-#+END_SRC
-*** Auto-completion
-#+BEGIN_SRC emacs-lisp
-(use-package company
-  :config (global-company-mode))
-#+END_SRC
-*** Anzu - matches to total ratio
-#+BEGIN_SRC emacs-lisp
-(use-package anzu
-  :config
-  (global-anzu-mode +1))
-#+END_SRC
-*** Ace-Window - jump between screens
-#+BEGIN_SRC emacs-lisp
-(use-package ace-window
-  :ensure t
-  :init
-  (progn
-    (global-set-key [remap other-window] 'ace-window)
-    (custom-set-faces
-     '(aw-leading-char-face
-       ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
-#+END_SRC
-*** Expand region
-#+BEGIN_SRC emacs-lisp
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-#+END_SRC
-*** Snippets
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet)
-#+END_SRC
-** Coding
-*** LSP - language server protocol
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :hook (scala-mode . lsp)
-  :config (setq lsp-prefer-flymake nil))
+;; The limit of the window width.
+;; If `window-width' is smaller than the limit, some information won't be displayed.
+(setq doom-modeline-window-width-limit fill-column)
 
-(use-package lsp-ui
-  :hook lsp-mode)
-#+END_SRC
-* Convenience
-** y for yes, n for no
-#+BEGIN_SRC emacs-lisp
-(fset 'yes-or-no-p 'y-or-n-p)
-#+END_SRC
-** Ivy fuzzy search except swiper
-#+BEGIN_SRC emacs-lisp
-(setq ivy-re-builders-alist
-      '((swiper . ivy--regex-plus)
-        (t      . ivy--regex-fuzzy)))
-#+END_SRC
-** List buufer using ibuffer
-#+BEGIN_SRC emacs-lisp
-(defalias 'list-buffers 'ibuffer-other-window)
-#+END_SRC
-* User interface
-** Start full screen
-#+BEGIN_SRC emacs-lisp
+;; How to detect the project root.
+;; The default priority of detection is `ffip' > `projectile' > `project'.
+;; nil means to use `default-directory'.
+;; The project management packages have some issues on detecting project root.
+;; e.g. `projectile' doesn't handle symlink folders well, while `project' is unable
+;; to hanle sub-projects.
+;; You can specify one if you encounter the issue.
+(setq doom-modeline-project-detection 'project)
+
+(setq doom-modeline-buffer-file-name-style 'auto)
+
+;; Whether display icons in the mode-line.
+;; While using the server mode in GUI, should set the value explicitly.
+(setq doom-modeline-icon (display-graphic-p))
+
+;; Whether display the icon for `major-mode'. It respects `doom-modeline-icon'.
+(setq doom-modeline-major-mode-icon t)
+
+;; Whether display the colorful icon for `major-mode'.
+;; It respects `all-the-icons-color-icons'.
+(setq doom-modeline-major-mode-color-icon t)
+
+;; Whether display the icon for the buffer state. It respects `doom-modeline-icon'.
+(setq doom-modeline-buffer-state-icon t)
+
+;; Whether display the modification icon for the buffer.
+;; It respects `doom-modeline-icon' and `doom-modeline-buffer-state-icon'.
+(setq doom-modeline-buffer-modification-icon t)
+
+;; Whether display the minor modes in the mode-line.
+(setq doom-modeline-minor-modes t)
+
+;; If non-nil, only display one number for checker information if applicable.
+(setq doom-modeline-checker-simple-format t)
+
+;; The maximum number displayed for notifications.
+(setq doom-modeline-number-limit 99)
+
+;; The maximum displayed length of the branch name of version control.
+(setq doom-modeline-vcs-max-length 12)
+
+;; Whether display the workspace name. Non-nil to display in the mode-line.
+(setq doom-modeline-workspace-name t)
+
+;; Whether display the perspective name. Non-nil to display in the mode-line.
+(setq doom-modeline-persp-name t)
+
+;; If non nil the default perspective name is displayed in the mode-line.
+(setq doom-modeline-display-default-persp-name nil)
+
+;; If non nil the perspective name is displayed alongside a folder icon.
+(setq doom-modeline-persp-icon t)
+
+;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+(setq doom-modeline-lsp t)
+
+;; Whether display the modal state icon.
+;; Including `evil', `overwrite', `god', `ryo' and `xah-fly-keys', etc.
+(setq doom-modeline-modal-icon t)
+
+;; Whether display the environment version.
+(setq doom-modeline-env-version t)
+
+   #+end_src
+* Generic settings
+** UI
+   #+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(when (boundp 'scroll-bar-mode)
+ (scroll-bar-mode -1))
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+END_SRC
-** Themes
-#+BEGIN_SRC emacs-lisp
-(use-package zenburn-theme)
-(use-package doom-themes)
-(use-package color-theme-sanityinc-solarized)
-(use-package material-theme)
-(use-package gruvbox-theme)
-(use-package ample-theme)
-(use-package sublime-themes)
-(use-package darktooth-theme)
-#+END_SRC
-** No tool bar
-#+BEGIN_SRC emacs-lisp
-(tool-bar-mode 0)
-#+END_SRC
-** No startup screen
-#+BEGIN_SRC emacs-lisp
-(setq inhibit-startup-screen t)
-#+END_SRC
-** Visible bell
-#+BEGIN_SRC emacs-lisp
+(setq inhibit-splash-screen t)
 (setq visible-bell t)
-#+END_SRC
-** No scroll bars
-#+BEGIN_SRC emacs-lisp
-(scroll-bar-mode -1)
-#+END_SRC
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+(load-theme 'doom-nova t)
+   #+END_SRC
 
-#+RESULTS:
+** Preferences
+   #+begin_src emacs_lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+   #+end_src
+* Emacs customizations
+** Modeline
+*** Diminish
+    #+begin_src emacs-lisp
+  (use-package diminish
+  :after use-package)
+ #+end_src
+* Programming
+** Ergonomics
+*** maintaint indentation
+#+begin_src emacs-lisp
+(use-package aggressive-indent
+:config (global-aggressive-indent-mode 1))
+#+end_src
