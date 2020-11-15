@@ -1,8 +1,8 @@
 * Interoperability
 ** Hash key on Mac, UK keyboard
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-   #+END_SRC
+   #+end_src
 
 * Package management
 ** Keep packages update
@@ -16,6 +16,14 @@
 
 * Completions
 ** Completion: ivy, swiper, counsel
+** More info for ivy: ivy-rich
+#+begin_src emacs-lisp
+(use-package ivy-rich
+:config (ivy-rich-mode 1)
+(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+)
+
+#+end_src
    #+begin_src emacs-lisp
  (use-package counsel
  :diminish (counsel-mode ivy-mode)
@@ -26,12 +34,23 @@
 :bind ("C-s" . swiper-isearch))
 (counsel-mode 1)
    #+end_src
-** Autocomplete
+** Autocomplete: company
    #+begin_src emacs-lisp
  (use-package company
    :diminish
    :config (global-company-mode))
    #+end_src
+** Completion heuristics: prescient
+#+begin_src  emacs-lisp
+(use-package ivy-prescient
+:config (ivy-prescient-mode 1)
+:after counsel)
+
+(use-package company-prescient
+:config (company-prescient-mode 1))
+
+(prescient-persist-mode 1) ; persist between sessions
+#+end_src
 ** Snippets
    #+begin_src emacs-lisp
 (use-package yasnippet
@@ -42,7 +61,8 @@
    #+begin_src emacs-lisp
 (use-package which-key
 :diminish
-:config (which-key-mode 1))
+:config (which-key-mode 1)
+(setq which-key-idle-delay 0.2))
    #+end_src
 
 * Navigation
@@ -193,6 +213,18 @@
   (use-package diminish
   :after use-package)
     #+end_src
+** Better help: helpful
+#+begin_src emacs-lisp
+(use-package helpful
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable)
+  :bind
+  ([remap describe-function] . counsel-describe-function)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . counsel-describe-variable)
+  ([remap describe-key] . helpful-key))
+#+end_src
 * Programming
 ** Geneal config
    #+begin_src emacs-lisp
@@ -211,4 +243,14 @@
 :hook (prog-mode . rainbow-delimiters-mode))
     #+end_src
 * Utilities
-** Source control
+** Source control: magit
+#+begin_src emacs-lisp
+(use-package magit
+  :bind ("C-c g" . magit-status))
+#+end_src
+** Working with repos: projectile
+#+begin_src emacs-lisp
+(use-package projectile
+:bind ("C-C p" . projectile-command-map)
+:config (projectile-mode 1))
+#+end_src
