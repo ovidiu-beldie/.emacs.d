@@ -1,3 +1,9 @@
+* Credits
+  My init config is based on the setup of the following people. Many thanks for their
+  contribution to the community.
+  - Protesilaos Stavrou [[https://protesilaos.com/dotemacs/][Prot's setup]]
+  - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
+
 * Interoperability
 ** Hash key on Mac, UK keyboard
    #+begin_src emacs-lisp
@@ -17,13 +23,13 @@
 * Completions
 ** Completion: ivy, swiper, counsel
 ** More info for ivy: ivy-rich
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package ivy-rich
 :config (ivy-rich-mode 1)
 (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
 )
 
-#+end_src
+   #+end_src
    #+begin_src emacs-lisp
  (use-package counsel
  :diminish (counsel-mode ivy-mode)
@@ -41,7 +47,7 @@
    :config (global-company-mode))
    #+end_src
 ** Completion heuristics: prescient
-#+begin_src  emacs-lisp
+   #+begin_src  emacs-lisp
 (use-package ivy-prescient
 :config (ivy-prescient-mode 1)
 :after counsel)
@@ -50,7 +56,7 @@
 :config (company-prescient-mode 1))
 
 (prescient-persist-mode 1) ; persist between sessions
-#+end_src
+   #+end_src
 ** Snippets
    #+begin_src emacs-lisp
 (use-package yasnippet
@@ -76,19 +82,34 @@
 ("M-g f" . avy-goto-line)))
    #+end_src
 ** Window manager: ace-window
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package ace-window
 :bind ("M-o" . ace-window))
-#+end_src
+   #+end_src
+** Filesystem tree view: treemacs
+   #+begin_src emacs-lisp
+(use-package treemacs)
+
+(use-package treemacs-projectile
+:after treemacs projectile)
+
+(use-package treemacs-icons-dired
+:after treemacs dired
+:config (treemacs-icons-dired-mode))
+
+(use-package treemacs-magit
+:after treemacs magit)
+
+   #+end_src
 * Org
 ** Org config
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package org
 :bind (
 ("C-c l" . org-store-link)
 ("C-c a" . org-agenda)
 ("C-c c" . org-capture)))
-#+end_src
+   #+end_src
 ** Bullets
    #+BEGIN_SRC emacs-lisp
 (use-package org-bullets
@@ -122,9 +143,9 @@
    #+end_src
 
 ** Sublime themes
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package sublime-themes)
-#+end_src
+   #+end_src
 ** Doom modeline
    #+begin_src emacs-lisp
 (use-package doom-modeline
@@ -206,10 +227,10 @@
 
    #+end_src
 ** Modus themes
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package modus-operandi-theme)
 (use-package modus-vivendi-theme)
-#+end_src
+   #+end_src
 * Generic settings
 ** UI
    #+BEGIN_SRC emacs-lisp
@@ -227,12 +248,13 @@
 ** Preferences
    #+begin_src emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
+(show-paren-mode 1)
    #+end_src
 * Emacs customizations
 ** Dired
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (setq delete-by-moving-to-trash t)
-#+end_src
+   #+end_src
 ** Modeline
 *** Diminish
     #+begin_src emacs-lisp
@@ -240,7 +262,7 @@
   :after use-package)
     #+end_src
 ** Better help: helpful
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package helpful
   :custom
   (counsel-describe-function-function #'helpful-callable)
@@ -250,9 +272,9 @@
   ([remap describe-command] . helpful-command)
   ([remap describe-variable] . counsel-describe-variable)
   ([remap describe-key] . helpful-key))
-#+end_src
+   #+end_src
 * Programming
-** Geneal config
+** General config
    #+begin_src emacs-lisp
 (add-hook 'prog-mode-hook 'display-line-numbers-mode) ; display line nr in code buffers
    #+end_src
@@ -265,18 +287,87 @@
     #+end_src
 *** rainbow parens
     #+begin_src emacs-lisp
-(use-package rainbow-delimiters
-:hook (prog-mode . rainbow-delimiters-mode))
+(use-package rainbow-delimiters)
     #+end_src
+** Language Server Protocol
+   #+begin_src emacs-lisp
+(setq lsp-keymap-prefix "C-c l")
+
+(use-package lsp-mode
+:hook ((prog-mode . lsp)
+(lsp-mode . lsp-enable-which-key-integration))
+:commands lsp
+:after flycheck)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+   #+end_src
+
+** Syntax checking: flycheck
+   #+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+   #+end_src
 * Project tools
 ** Source control: magit
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package magit
   :bind ("C-c g" . magit-status))
-#+end_src
+   #+end_src
 ** Working with repos: projectile
-#+begin_src emacs-lisp
-(use-package projectile
-:bind ("C-C p" . projectile-command-map)
-:config (projectile-mode 1))
-#+end_src
+   #+begin_src emacs-lisp
+  (use-package projectile
+  :bind ("C-c p" . projectile-command-map)
+  :config (projectile-mode 1)
+  :after ivy)
+
+  (setq projectile-completion-system 'ivy)
+   #+end_src
+* Packages to explore
+  - general
+  - orderless
+  - smerge
+  - helm
+  - lispy
+  - live python
+  - org-html-themes
+  - elpy
+  - expand-region
+  - web-mode
+  - noflet
+  - eglot
+  - ripgrep
+  - origami
+  - magit forge
+  - restclient
+  - dumb-jump
+  - try
+  - auto-yasnippet
+  - org-msg
+  - smartparens
+  - silversearcher
+  - treemacs
+  - eyebrowse
+  - ag
+  - wgrep
+  - emmet
+  - flycheck
+  - pcre2el
+  - virtualenvwrapper
+  - all-the-icons-ivy
+  - all-the-icons-dired
+  - dired-subtree
+  - dired-narrow
+  - iedit
+  - hydra
+  - git-gutter
+  - git-timemachine
+  - try
+  - jedi
+  - treemacs-projectile
+  - dap
+

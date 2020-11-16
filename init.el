@@ -66,7 +66,7 @@
  '(linum-format " %7i ")
  '(objed-cursor-color "#C16069")
  '(package-selected-packages
-   '(ace-window modus-vivendi-theme modus-operandi-theme modus-vivendi-mode modus-operandi-mode modus-vivendi modus-operandi dimmer sublime-themes company-prescient ivy-prescient projectile magit helpful ivy-rich prog-mode rainbow-delimiters display-line-numbers-mode which-key yasnippet avy counsel auto-package-update aggressive-indent aggresive-indent rainbow-mode diminish company ivy doom-modeline use-package org-bullets doom-themes all-the-icons))
+   '(lsp-treemacs lsp-ivy lsp-ui lsp-mode treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ace-window modus-vivendi-theme modus-operandi-theme modus-vivendi-mode modus-operandi-mode modus-vivendi modus-operandi dimmer sublime-themes company-prescient ivy-prescient projectile magit helpful ivy-rich prog-mode rainbow-delimiters display-line-numbers-mode which-key yasnippet avy counsel auto-package-update aggressive-indent aggresive-indent rainbow-mode diminish company ivy doom-modeline use-package org-bullets doom-themes all-the-icons))
  '(pdf-view-midnight-colors (cons "#eceff4" "#323334"))
  '(rustic-ansi-faces
    ["#323334" "#C16069" "#A2BF8A" "#ECCC87" "#80A0C2" "#B58DAE" "#86C0D1" "#eceff4"])

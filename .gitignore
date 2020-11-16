@@ -1,6 +1,13 @@
+*#
 .*
 *~
 elpa/*
 *.data
 amx*
 transient/*
+url
+var
+projectile*
+recent*
+package*
+my_init.el
