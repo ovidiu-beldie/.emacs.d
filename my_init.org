@@ -2,6 +2,7 @@
   My init config is based on the setup of the following people. Many thanks for their
   contribution to the community.
   - Protesilaos Stavrou [[https://protesilaos.com/dotemacs/][Prot's setup]]
+  - Bozhidar Batsov [[https://github.com/bbatsov/emacs.d][Bozhidar's setup]]
   - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
 
 * Interoperability
@@ -9,6 +10,17 @@
    #+begin_src emacs-lisp
 (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
    #+end_src
+
+** Make Emacs app aware of shell environment on OSX: exec-path-from-shell
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell)
+
+(exec-path-from-shell-copy-env "PYTHONPATH")
+(exec-path-from-shell-copy-env "JAVA_HOME")
+
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+#+end_src
 
 * Package management
 ** Keep packages update
@@ -76,11 +88,13 @@
    #+begin_src emacs-lisp
 (use-package avy
 :diminish
-:bind (("C-:" . avy-goto-char)
-("C-'" . avy-goto-char-2)
+:bind (
+("M-g c" . avy-goto-char)
+("M-g p" . avy-goto-char-2)
 ("M-g w" . avy-goto-word-1)
-("M-g f" . avy-goto-line)))
+("M-g l" . avy-goto-line)))
    #+end_src
+
 ** Window manager: ace-window
    #+begin_src emacs-lisp
 (use-package ace-window
@@ -299,19 +313,58 @@
 :commands lsp
 :after flycheck)
 
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui
+:commands lsp-ui-mode)
 
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy
+:commands lsp-ivy-workspace-symbol)
 
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-treemacs
+:commands lsp-treemacs-errors-list
+:config (lsp-treemacs-sync-mode 1))
+
+(use-package company-lsp)
    #+end_src
 
 ** Syntax checking: flycheck
    #+begin_src emacs-lisp
 (use-package flycheck
   :ensure t
+:diminish
   :init (global-flycheck-mode))
    #+end_src
+** Languages
+*** Clojure
+*** Python
+*** Scala
+#+begin_src emacs-lisp
+(use-package scala-mode
+  :interpreter
+    ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command)
+
+(use-package lsp-metals
+  :config (setq lsp-metals-treeview-show-when-views-received t))
+#+end_src
+
+*** Java
+#+begin_src emacs-lisp
+(use-package lsp-java
+:hook (java-mode-hook . lsp))
+#+end_src
+
+** Debugging
+#+begin_src emacs-lisp
+(use-package posframe) ; requires by dap
+
+(use-package dap-mode
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode))
+#+end_src
+
 * Project tools
 ** Source control: magit
    #+begin_src emacs-lisp
@@ -370,4 +423,4 @@
   - jedi
   - treemacs-projectile
   - dap
-
+  - exec-path-from-shell
