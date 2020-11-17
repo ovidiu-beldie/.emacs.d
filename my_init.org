@@ -12,7 +12,7 @@
    #+end_src
 
 ** Make Emacs app aware of shell environment on OSX: exec-path-from-shell
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package exec-path-from-shell)
 
 (exec-path-from-shell-copy-env "PYTHONPATH")
@@ -20,7 +20,7 @@
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-#+end_src
+   #+end_src
 
 * Package management
 ** Keep packages update
@@ -34,14 +34,6 @@
 
 * Completions
 ** Completion: ivy, swiper, counsel
-** More info for ivy: ivy-rich
-   #+begin_src emacs-lisp
-(use-package ivy-rich
-:config (ivy-rich-mode 1)
-(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-)
-
-   #+end_src
    #+begin_src emacs-lisp
  (use-package counsel
  :diminish (counsel-mode ivy-mode)
@@ -52,6 +44,14 @@
 :bind ("C-s" . swiper-isearch))
 (counsel-mode 1)
    #+end_src
+
+** More info for ivy: ivy-rich
+   #+begin_src emacs-lisp
+(use-package ivy-rich
+:config (ivy-rich-mode 1)
+(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+   #+end_src
+
 ** Autocomplete: company
    #+begin_src emacs-lisp
  (use-package company
@@ -74,6 +74,11 @@
 (use-package yasnippet
 :diminish yas
 :config (yas-global-mode 1))
+
+(use-package yasnippet-snippets :diminish)
+
+(use-package clojure-snippets)
+
    #+end_src
 ** Which key
    #+begin_src emacs-lisp
@@ -245,6 +250,13 @@
 (use-package modus-operandi-theme)
 (use-package modus-vivendi-theme)
    #+end_src
+** Iconcs for company: company-box
+   #+begin_src emacs-lisp
+(use-package company-box
+  :hook (company-mode . company-box-mode)
+  :after company-mode)
+   #+end_src
+
 * Generic settings
 ** UI
    #+BEGIN_SRC emacs-lisp
@@ -335,9 +347,13 @@
    #+end_src
 ** Languages
 *** Clojure
+    #+begin_src emacs-lisp
+(use-package cider)
+    #+end_src
+
 *** Python
 *** Scala
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 (use-package scala-mode
   :interpreter
     ("scala" . scala-mode))
@@ -347,23 +363,23 @@
 
 (use-package lsp-metals
   :config (setq lsp-metals-treeview-show-when-views-received t))
-#+end_src
+    #+end_src
 
 *** Java
-#+begin_src emacs-lisp
+    #+begin_src emacs-lisp
 (use-package lsp-java
 :hook (java-mode-hook . lsp))
-#+end_src
+    #+end_src
 
 ** Debugging
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package posframe) ; requires by dap
 
 (use-package dap-mode
   :hook
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
-#+end_src
+   #+end_src
 
 * Project tools
 ** Source control: magit
@@ -375,10 +391,16 @@
    #+begin_src emacs-lisp
   (use-package projectile
   :bind ("C-c p" . projectile-command-map)
-  :config (projectile-mode 1)
+  :init (projectile-mode 1)
   :after ivy)
 
   (setq projectile-completion-system 'ivy)
+   #+end_src
+** Feedback for lines changed: git-gutter+
+   #+begin_src emacs-lisp
+(use-package git-gutter+
+:diminish
+:config (global-git-gutter+-mode))
    #+end_src
 * Packages to explore
   - general
@@ -403,12 +425,10 @@
   - org-msg
   - smartparens
   - silversearcher
-  - treemacs
   - eyebrowse
   - ag
   - wgrep
   - emmet
-  - flycheck
   - pcre2el
   - virtualenvwrapper
   - all-the-icons-ivy
@@ -417,10 +437,13 @@
   - dired-narrow
   - iedit
   - hydra
-  - git-gutter
   - git-timemachine
   - try
   - jedi
-  - treemacs-projectile
   - dap
   - exec-path-from-shell
+  - flyspell
+* FIXME
+** yasnippets snippets
+** company-box
+** diminish yas
