@@ -77,8 +77,6 @@
 
 (use-package yasnippet-snippets :diminish)
 
-(use-package clojure-snippets)
-
    #+end_src
 ** Which key
    #+begin_src emacs-lisp
@@ -402,6 +400,24 @@
 :diminish
 :config (global-git-gutter+-mode))
    #+end_src
+* Typing productivity
+** Expand selection: expand-region
+   #+begin_src emacs-lisp
+(use-package expand-region
+:diminish
+:bind ("C-=" . er/expand-region))
+   #+end_src
+
+** Multiple cursors
+   #+begin_src emacs-lisp
+(use-package multiple-cursors
+:bind (
+("C-c m" . mc/edit-lines)
+("C->" . mc/mark-next-like-this)
+("C-<" . mc/mark-previous-like-this)
+("C-c >" . mc/mark-all-like-this)
+))
+   #+end_src
 * Packages to explore
   - general
   - orderless
@@ -443,7 +459,7 @@
   - dap
   - exec-path-from-shell
   - flyspell
-* FIXME
-** yasnippets snippets
-** company-box
-** diminish yas
+* TODO Issues
+  - yasnippets snippets
+  - company-box
+  - diminish yas
