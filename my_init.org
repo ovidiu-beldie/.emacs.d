@@ -5,6 +5,11 @@
   - Bozhidar Batsov [[https://github.com/bbatsov/emacs.d][Bozhidar's setup]]
   - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
 
+* Prerequisits (on OS X)
+  - fira code font -> brew
+  - all the fonts
+  - JDK
+  - set JAVA HOME
 * Interoperability
 ** Hash key on Mac, UK keyboard
    #+begin_src emacs-lisp
@@ -15,11 +20,17 @@
    #+begin_src emacs-lisp
 (use-package exec-path-from-shell)
 
-(exec-path-from-shell-copy-env "PYTHONPATH")
+(exec-path-from-shell-copy-env
+ "PYTHONPATH")
 (exec-path-from-shell-copy-env "JAVA_HOME")
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
+   #+end_src
+
+** More compatible terminal emulator: vterm
+   #+begin_src emacs-lisp
+   (use-package vterm)
    #+end_src
 
 * Package management
@@ -118,6 +129,12 @@
 :after treemacs magit)
 
    #+end_src
+** Folding: origami
+#+begin_src emacs-lisp
+(use-package origami
+:diminish
+:config (global-origami-mode))
+#+end_src
 * Org
 ** Org config
    #+begin_src emacs-lisp
@@ -268,11 +285,15 @@
 (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
 (load-theme 'modus-vivendi t)
 (column-number-mode) ; show col nr in mode line
+(global-hl-line-mode) ; highlight current line
+(set-cursor-color 'orange)
+(set-face-background hl-line-face "gray10")
    #+END_SRC
 ** Preferences
    #+begin_src emacs-lisp
 (fset 'yes-or-no-p 'y-or-n-p)
-(show-paren-mode 1)
+(show-paren-mode 1) ; highlight matching parenthesis
+(setq display-line-numbers 'relative)
    #+end_src
 * Emacs customizations
 ** Dired
@@ -280,7 +301,7 @@
 (setq delete-by-moving-to-trash t)
    #+end_src
 ** Modeline
-*** Diminish
+*** Control display of minor modes in the modeline: diminish
     #+begin_src emacs-lisp
   (use-package diminish
   :after use-package)
@@ -307,12 +328,17 @@
     #+begin_src emacs-lisp
 (use-package aggressive-indent
 :diminish
-:config (global-aggressive-indent-mode 1))
+:config (global-aggressive-indent-mode -1))
     #+end_src
 *** rainbow parens
     #+begin_src emacs-lisp
 (use-package rainbow-delimiters)
     #+end_src
+** LISP dialects structural editing: lispy
+#+begin_src emacs-lisp
+(use-package lispy
+:hook (emacs-lisp-mode-hook . (lambda () (lispy-mode 1))))
+#+end_src
 ** Language Server Protocol
    #+begin_src emacs-lisp
 (setq lsp-keymap-prefix "C-c l")
@@ -401,6 +427,11 @@
 :config (global-git-gutter+-mode))
    #+end_src
 * Typing productivity
+** Modal subsequent commands: hydra
+#+begin_src emacs-lisp
+(use-package hydra
+:diminish)
+#+end_src
 ** Expand selection: expand-region
    #+begin_src emacs-lisp
 (use-package expand-region
@@ -418,7 +449,8 @@
 ("C-c >" . mc/mark-all-like-this)
 ))
    #+end_src
-* Packages to explore
+* Packagesg to explore
+  - ivy-postframe
   - general
   - orderless
   - smerge
@@ -431,7 +463,7 @@
   - web-mode
   - noflet
   - eglot
-  - ripgrep
+  - ripgrep (rg)
   - origami
   - magit forge
   - restclient
@@ -440,11 +472,18 @@
   - auto-yasnippet
   - org-msg
   - smartparens
+  - beacon
   - silversearcher
   - eyebrowse
   - ag
   - wgrep
+  - anzu
+  - fzf
+  - darkroom
+  - org-tree-slide
+  - org-superstar
   - emmet
+  - org-roam
   - pcre2el
   - virtualenvwrapper
   - all-the-icons-ivy
@@ -458,7 +497,11 @@
   - jedi
   - dap
   - exec-path-from-shell
+  - dired-subtree
+  - dired-narrow
   - flyspell
+  - hl-line+
+  - rg
 * TODO Issues
   - yasnippets snippets
   - company-box
