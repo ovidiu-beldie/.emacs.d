@@ -8,8 +8,11 @@
 * Prerequisits (on OS X)
   - fira code font -> brew
   - all the fonts
-  - JDK
+  - JDK -> oracle?
   - set JAVA HOME
+  - libvterm
+  - cmake -> brew, needed by libvterm
+  - ispell
 * Interoperability
 ** Hash key on Mac, UK keyboard
    #+begin_src emacs-lisp
@@ -20,8 +23,7 @@
    #+begin_src emacs-lisp
 (use-package exec-path-from-shell)
 
-(exec-path-from-shell-copy-env
- "PYTHONPATH")
+(exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-copy-env "JAVA_HOME")
 
 (when (memq window-system '(mac ns x))
@@ -30,13 +32,13 @@
 
 ** More compatible terminal emulator: vterm
    #+begin_src emacs-lisp
-   (use-package vterm)
+      (use-package vterm)
    #+end_src
 
 * Package management
 ** Keep packages update
    #+begin_src emacs-lisp
-(use-package auto-package-update
+(use-package auto-package-updated
   :config
   (setq auto-package-update-delete-old-versions t)
   (setq auto-package-update-hide-results t)
@@ -58,9 +60,9 @@
 
 ** More info for ivy: ivy-rich
    #+begin_src emacs-lisp
-(use-package ivy-rich
-:config (ivy-rich-mode 1)
-(setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+      (use-package ivy-rich
+      :config (ivy-rich-mode 1)
+      (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
    #+end_src
 
 ** Autocomplete: company
@@ -71,14 +73,14 @@
    #+end_src
 ** Completion heuristics: prescient
    #+begin_src  emacs-lisp
-(use-package ivy-prescient
-:config (ivy-prescient-mode 1)
-:after counsel)
+      (use-package ivy-prescient
+      :config (ivy-prescient-mode 1)
+      :after counsel)
 
-(use-package company-prescient
-:config (company-prescient-mode 1))
+      (use-package company-prescient
+      :config (company-prescient-mode 1))
 
-(prescient-persist-mode 1) ; persist between sessions
+      (prescient-persist-mode 1) ; persist between sessions
    #+end_src
 ** Snippets
    #+begin_src emacs-lisp
@@ -130,11 +132,11 @@
 
    #+end_src
 ** Folding: origami
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package origami
 :diminish
 :config (global-origami-mode))
-#+end_src
+   #+end_src
 * Org
 ** Org config
    #+begin_src emacs-lisp
@@ -282,7 +284,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
 (setq inhibit-splash-screen t) ; no splash screen
 (setq visible-bell t) ; no audio bell
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+(set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
 (load-theme 'modus-vivendi t)
 (column-number-mode) ; show col nr in mode line
 (global-hl-line-mode) ; highlight current line
@@ -335,10 +337,10 @@
 (use-package rainbow-delimiters)
     #+end_src
 ** LISP dialects structural editing: lispy
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package lispy
 :hook (emacs-lisp-mode-hook . (lambda () (lispy-mode 1))))
-#+end_src
+   #+end_src
 ** Language Server Protocol
    #+begin_src emacs-lisp
 (setq lsp-keymap-prefix "C-c l")
@@ -379,6 +381,7 @@
 *** Scala
     #+begin_src emacs-lisp
 (use-package scala-mode
+  :mode "\\.sc\\'" 
   :interpreter
     ("scala" . scala-mode))
 
@@ -428,10 +431,10 @@
    #+end_src
 * Typing productivity
 ** Modal subsequent commands: hydra
-#+begin_src emacs-lisp
+   #+begin_src emacs-lisp
 (use-package hydra
 :diminish)
-#+end_src
+   #+end_src
 ** Expand selection: expand-region
    #+begin_src emacs-lisp
 (use-package expand-region
@@ -497,8 +500,6 @@
   - jedi
   - dap
   - exec-path-from-shell
-  - dired-subtree
-  - dired-narrow
   - flyspell
   - hl-line+
   - rg
