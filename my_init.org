@@ -264,8 +264,8 @@
    #+end_src
 ** Modus themes
    #+begin_src emacs-lisp
-(use-package modus-operandi-theme)
-(use-package modus-vivendi-theme)
+     ;; (use-package modus-operandi-theme)
+     ;; (use-package modus-vivendi-theme)
    #+end_src
 ** Iconcs for company: company-box
    #+begin_src emacs-lisp
@@ -277,19 +277,19 @@
 * Generic settings
 ** UI
    #+BEGIN_SRC emacs-lisp
-(menu-bar-mode -1)  ; no menu bar
-(tool-bar-mode -1)  ; no tool bar
-(when (boundp 'scroll-bar-mode) ; no scroll bar
- (scroll-bar-mode -1))
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
-(setq inhibit-splash-screen t) ; no splash screen
-(setq visible-bell t) ; no audio bell
-(set-face-attribute 'default nil :font "Fira Code Retina" :height 130)
-(load-theme 'modus-vivendi t)
-(column-number-mode) ; show col nr in mode line
-(global-hl-line-mode) ; highlight current line
-(set-cursor-color 'orange)
-(set-face-background hl-line-face "gray10")
+     (menu-bar-mode -1)  ; no menu bar
+     (tool-bar-mode -1)  ; no tool bar
+     (when (boundp 'scroll-bar-mode) ; no scroll bar
+      (scroll-bar-mode -1))
+     (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
+     (setq inhibit-splash-screen t) ; no splash screen
+     (setq visible-bell t) ; no audio bell
+     (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+     (load-theme 'doom-nova t)
+     (column-number-mode) ; show col nr in mode line
+     ;; (global-hl-line-mode) ; highlight current line
+     ;; (set -cursor-color 'orange)
+     ;; (set-face-background hl-line-face "gray10")
    #+END_SRC
 ** Preferences
    #+begin_src emacs-lisp
