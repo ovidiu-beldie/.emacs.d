@@ -36,6 +36,11 @@
    #+end_src
 
 * Package management
+** Update GPG keys for ELPA
+   #+begin_src emacs-lisp
+   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+   (use-package gnu-elpa-keyring-update)
+   #+end_src
 ** Keep packages update
    #+begin_src emacs-lisp
 (use-package auto-package-updated
@@ -284,7 +289,7 @@
      (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
      (setq inhibit-splash-screen t) ; no splash screen
      (setq visible-bell t) ; no audio bell
-     (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+     ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
      (load-theme 'doom-nova t)
      (column-number-mode) ; show col nr in mode line
      ;; (global-hl-line-mode) ; highlight current line

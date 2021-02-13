@@ -7,10 +7,12 @@
 
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
-	("melpa" . "https://melpa.org/packages/"))
+	("melpa" . "https://melpa.org/packages/")
+	("gnu" . "https://elpa.gnu.org/packages/"))
       package-archive-priorities
-      '(("melpa-stable" . 10)
-	("melpa" . 5)))
+      '(("melpa-stable" . 15)
+	("melpa" . 10)
+	("gnu" . 5)))
 
 
 (unless (package-installed-p 'use-package)
@@ -41,7 +43,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#10151C" "#384551"))
  '(linum-format " %7i ")
  '(package-selected-packages
-   '(auto-package-updated vterm multiple-cursors expand-region git-gutter+ lsp-java lsp-metals sbt-mode scala-mode cider flycheck company-lsp lsp-treemacs lsp-ivy lsp-ui lsp-mode lispy rainbow-delimiters aggressive-indent helpful diminish company-box modus-vivendi-theme modus-operandi-theme doom-modeline sublime-themes doom-themes all-the-icons org-bullets origami treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ace-window avy which-key yasnippet-snippets yasnippet company counsel auto-package-update exec-path-from-shell use-package)))
+   '(gnu-elpa-keyring-update auto-package-updated vterm multiple-cursors expand-region git-gutter+ lsp-java lsp-metals sbt-mode scala-mode cider flycheck company-lsp lsp-treemacs lsp-ivy lsp-ui lsp-mode lispy rainbow-delimiters aggressive-indent helpful diminish company-box modus-vivendi-theme modus-operandi-theme doom-modeline sublime-themes doom-themes all-the-icons org-bullets origami treemacs-magit treemacs-icons-dired treemacs-projectile treemacs ace-window avy which-key yasnippet-snippets yasnippet company counsel auto-package-update exec-path-from-shell use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
