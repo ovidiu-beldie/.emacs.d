@@ -13,6 +13,7 @@
   - libvterm
   - cmake -> brew, needed by libvterm
   - ispell
+  - ripgrep
 * Interoperability
 ** Hash key on Mac, UK keyboard
    #+begin_src emacs-lisp
@@ -37,6 +38,8 @@
 
 * Package management
 ** Update GPG keys for ELPA
+   This solves the issue of the key being updated and preventing the
+   installation/update of packages.
    #+begin_src emacs-lisp
    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
    (use-package gnu-elpa-keyring-update)
@@ -305,7 +308,17 @@
 * Emacs customizations
 ** Dired
    #+begin_src emacs-lisp
-(setq delete-by-moving-to-trash t)
+   (setq delete-by-moving-to-trash t)
+
+   ;; Hide backup, auto-save etc. files
+   (use-package dired-x
+   :config
+   (progn
+   (setq dired-omit-verbose nil)
+   ;; toggle `dired-omit-mode' with C-x M-o
+   (add-hook 'dired-mode-hook #'dired-omit-mode)
+   (setq dired-omit-files
+      (concat dired-omit-files "\\|^.DS_STORE$\\|^.projectile$"))))
    #+end_src
 ** Modeline
 *** Control display of minor modes in the modeline: diminish
@@ -339,7 +352,8 @@
     #+end_src
 *** rainbow parens
     #+begin_src emacs-lisp
-(use-package rainbow-delimiters)
+(use-package rainbow-delimiters
+:hook (prog-mode . rainbow-delimiters-mode))
     #+end_src
 ** LISP dialects structural editing: lispy
    #+begin_src emacs-lisp
@@ -421,12 +435,13 @@
    #+end_src
 ** Working with repos: projectile
    #+begin_src emacs-lisp
-  (use-package projectile
-  :bind ("C-c p" . projectile-command-map)
-  :init (projectile-mode 1)
-  :after ivy)
+     (use-package projectile
+     :bind ("C-c p" . projectile-command-map)
+     :init (projectile-mode 1)
+     :diminish
+     :after ivy)
 
-  (setq projectile-completion-system 'ivy)
+     (setq projectile-completion-system 'ivy)
    #+end_src
 ** Feedback for lines changed: git-gutter+
    #+begin_src emacs-lisp
@@ -458,6 +473,7 @@
 ))
    #+end_src
 * Packagesg to explore
+  - counsel-projectile
   - ivy-postframe
   - general
   - orderless
@@ -474,6 +490,7 @@
   - ripgrep (rg)
   - origami
   - magit forge
+  - magit evil
   - restclient
   - dumb-jump
   - try
@@ -492,7 +509,9 @@
   - org-superstar
   - emmet
   - org-roam
+  - org-ql
   - pcre2el
+  - olivetti
   - virtualenvwrapper
   - all-the-icons-ivy
   - all-the-icons-dired
@@ -508,6 +527,7 @@
   - flyspell
   - hl-line+
   - rg
+  - visual fill mode
 * TODO Issues
   - yasnippets snippets
   - company-box
