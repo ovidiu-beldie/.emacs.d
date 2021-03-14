@@ -78,6 +78,10 @@
  (use-package company
    :diminish
    :config (global-company-mode))
+
+ (use-package company-terraform
+ :diminish
+ :config (company-terraform-init))
    #+end_src
 ** Completion heuristics: prescient
    #+begin_src  emacs-lisp
@@ -292,8 +296,8 @@
      (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
      (setq inhibit-splash-screen t) ; no splash screen
      (setq visible-bell t) ; no audio bell
-     ;; (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
-     (load-theme 'doom-nova t)
+     (set-face-attribute 'default nil :font "Fira Code Retina" :height 125)
+     (load-theme 'doom-peacock t)
      (column-number-mode) ; show col nr in mode line
      ;; (global-hl-line-mode) ; highlight current line
      ;; (set -cursor-color 'orange)
@@ -309,16 +313,6 @@
 ** Dired
    #+begin_src emacs-lisp
    (setq delete-by-moving-to-trash t)
-
-   ;; Hide backup, auto-save etc. files
-   (use-package dired-x
-   :config
-   (progn
-   (setq dired-omit-verbose nil)
-   ;; toggle `dired-omit-mode' with C-x M-o
-   (add-hook 'dired-mode-hook #'dired-omit-mode)
-   (setq dired-omit-files
-      (concat dired-omit-files "\\|^.DS_STORE$\\|^.projectile$"))))
    #+end_src
 ** Modeline
 *** Control display of minor modes in the modeline: diminish
@@ -416,7 +410,11 @@
 (use-package lsp-java
 :hook (java-mode-hook . lsp))
     #+end_src
-
+*** Terraform
+    #+begin_src emacs-lisp
+    (use-package terraform-mode
+    :diminish)
+    #+end_src
 ** Debugging
    #+begin_src emacs-lisp
 (use-package posframe) ; requires by dap
@@ -426,7 +424,7 @@
   (lsp-mode . dap-mode)
   (lsp-mode . dap-ui-mode))
    #+end_src
-
+   
 * Project tools
 ** Source control: magit
    #+begin_src emacs-lisp
