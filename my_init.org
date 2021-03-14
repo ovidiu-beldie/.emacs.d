@@ -352,8 +352,8 @@
     #+end_src
 *** rainbow parens
     #+begin_src emacs-lisp
-(use-package rainbow-delimiters
-:hook (prog-mode . rainbow-delimiters-mode))
+      (use-package rainbow-delimiters
+      :hook (prog-mode . rainbow-delimiters-mode))
     #+end_src
 ** LISP dialects structural editing: lispy
    #+begin_src emacs-lisp
@@ -528,6 +528,8 @@
   - hl-line+
   - rg
   - visual fill mode
+  - doct
+  - dashboard
 * TODO Issues
   - yasnippets snippets
   - company-box
