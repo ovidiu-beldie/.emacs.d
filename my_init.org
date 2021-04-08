@@ -5,7 +5,7 @@
   - Bozhidar Batsov [[https://github.com/bbatsov/emacs.d][Bozhidar's setup]]
   - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
 
-* Prerequisites (on OS X)
+* Prerequisits (on OS X)
   - fira code font -> brew
   - all the fonts
   - JDK -> oracle?
@@ -58,7 +58,7 @@
    #+begin_src emacs-lisp
      (use-package counsel
        :diminish (counsel-mode ivy-mode)
-       :config 
+       :config
        (ivy-mode 1)
        (counsel-mode 1)
        (setq ivy-use-virtual-buffers t)   ; recent files to ivy-switch-buffer
@@ -75,8 +75,7 @@
    #+begin_src emacs-lisp
      (use-package ivy-rich
        :config (ivy-rich-mode 1)
-       :after counsel
-       ;; (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+       (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
        )
    #+end_src
 
@@ -407,7 +406,7 @@
 *** Scala
     #+begin_src emacs-lisp
       (use-package scala-mode
-	:mode "\\.sc\\'" 
+	:mode "\\.sc\\'"
 	:interpreter
 	("scala" . scala-mode))
 
@@ -556,6 +555,8 @@
   - hl-line+
   - rg
   - visual fill mode
+  - doct
+  - dashboard
 * TODO Issues
   - yasnippets snippets
   - company-box
