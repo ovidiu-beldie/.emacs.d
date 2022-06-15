@@ -1,40 +1,40 @@
 * Credits
-  My init config is based on the setup of the following people. Many thanks for their
-  contribution to the community.
-  - Protesilaos Stavrou [[https://protesilaos.com/dotemacs/][Prot's setup]]
-  - Bozhidar Batsov [[https://github.com/bbatsov/emacs.d][Bozhidar's setup]]
-  - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
+My init config is based on the setup of the following people. Many thanks for their
+contribution to the community.
+- Protesilaos Stavrou [[https://protesilaos.com/dotemacs/][Prot's setup]]
+- Bozhidar Batsov [[https://github.com/bbatsov/emacs.d][Bozhidar's setup]]
+- Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
 
 * Prerequisits (on OS X)
-  - fira code font -> brew
-  - all the fonts
-  - JDK -> oracle?
-  - set JAVA HOME
-  - libvterm
-  - cmake -> brew, needed by libvterm
-  - ispell
-  - ripgrep
+- fira code font -> brew
+- all the fonts
+- JDK -> oracle?
+- set JAVA HOME
+- libvterm
+- cmake -> brew, needed by libvterm
+- ispell
+- ripgrep
 * Interoperability
 ** Hash key on Mac, UK keyboard
-   #+begin_src emacs-lisp
-(global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
-   #+end_src
+#+begin_src emacs-lisp
+  (global-set-key (kbd "M-3") '(lambda () (interactive) (insert "#")))
+#+end_src
 
 ** Make Emacs app aware of shell environment on OSX: exec-path-from-shell
-   #+begin_src emacs-lisp
-(use-package exec-path-from-shell)
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell)
 
-(exec-path-from-shell-copy-env "PYTHONPATH")
-(exec-path-from-shell-copy-env "JAVA_HOME")
+  (exec-path-from-shell-copy-env "PYTHONPATH")
+  (exec-path-from-shell-copy-env "JAVA_HOME")
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-   #+end_src
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+#+end_src
 
 ** More compatible terminal emulator: vterm
-   #+begin_src emacs-lisp
-      (use-package vterm)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package vterm)
+#+end_src
 
 * Package management
 ** Update GPG keys for ELPA
@@ -80,7 +80,7 @@ savehist saves history over sessions
 	   ("<help> a" . consult-apropos)            ;; orig. apropos-command
 	   ;; M-g bindings (goto-map)
 	   ("M-g e" . consult-compile-error)
-	   ("M-g f" . consult-flymake)               ;; Alternative: consult-flycheck
+	   ("M-g f" . consult-flycheck)               ;; Alternative: consult-flycheck
 	   ("M-g g" . consult-goto-line)             ;; orig. goto-line
 	   ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
 	   ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
@@ -204,53 +204,53 @@ savehist saves history over sessions
 ** Embark
 #+BEGIN_SRC emacs-lisp
   (use-package embark
-  :ensure t
+    :ensure t
 
-  :bind
-  (("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+    :bind
+    (("C-." . embark-act)         ;; pick some comfortable binding
+     ("C-;" . embark-dwim)        ;; good alternative: M-.
+     ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
 
-  :init
+    :init
 
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+    ;; Optionally replace the key help with a completing-read interface
+    (setq prefix-help-command #'embark-prefix-help-command)
 
-  :config
+    :config
 
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+    ;; Hide the mode line of the Embark live/completions buffers
+    (add-to-list 'display-buffer-alist
+		 '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		   nil
+		   (window-parameters (mode-line-format . none)))))
 
-;; Consult users will also want the embark-consult package.
-(use-package embark-consult
-  :ensure t
-  :after (embark consult)
-  :demand t ; only necessary if you have the hook below
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+  ;; Consult users will also want the embark-consult package.
+  (use-package embark-consult
+    :ensure t
+    :after (embark consult)
+    :demand t ; only necessary if you have the hook below
+    ;; if you want to have consult previews as you move around an
+    ;; auto-updating embark collect buffer
+    :hook
+    (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 
 ** Autocomplete: company
 #+begin_src emacs-lisp
-    (use-package company
-      :diminish
-      :config (global-company-mode))
+  (use-package company
+    :diminish
+    :config (global-company-mode))
 
-    (use-package company-prescient
+  (use-package company-prescient
     :config
     (company-prescient-mode 1)
     (prescient-persist-mode 1) ;; persist between sessions
     )
 
 
-    (use-package company-terraform
-      :diminish
-      :config (company-terraform-init))
+  (use-package company-terraform
+    :diminish
+    :config (company-terraform-init))
 #+end_src
 
 ** Snippets
@@ -328,11 +328,21 @@ savehist saves history over sessions
 #+END_SRC
 
 ** Roam
+
+Doesn't work out of the box on macOS Monterey, times out when trying to access
+the emacsql DB.
+The solution was to use emacsql-sqlite3.
+
 #+BEGIN_SRC emacs-lisp
+
+  (use-package emacsql-sqlite3)
+
   (use-package org-roam
-    :init (setq org-roam-v2-ack t)
+    :init
+    (setq org-roam-v2-ack t)
+    (setq org-roam-database-connector 'sqlite3)
     :custom
-    (org-roam-directory "~/Users/u012oxb/cwt/notes/roam")
+    (org-roam-directory "~/cwt/notes/roam")
     (org-roam-completion-everywhere t)
     :bind (("C-c n l" . org-roam-buffer-toggle)
 	   ("C-c n f" . org-roam-node-find)
@@ -343,7 +353,8 @@ savehist saves history over sessions
     ("C-c n d" . org-roam-dailies-map)
     :config
     (require 'org-roam-dailies) ;; ensure the keymap is available
-    (org-roam-db-autosync-mode))
+    (org-roam-db-autosync-mode)
+    )
 #+END_SRC
 
 * Eye candy
@@ -482,8 +493,8 @@ savehist saves history over sessions
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 135)
-  (load-theme 'tsdh-light t)
+  (set-face-attribute 'default nil :font "Menlo" :height 125)
+  (load-theme 'modus-operandi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
   ;; (set -cursor-color 'orange)
@@ -565,7 +576,6 @@ savehist saves history over sessions
     :commands lsp-treemacs-errors-list
     :config (lsp-treemacs-sync-mode 1))
 
-  (use-package company-lsp)
 #+end_src
 
 ** Syntax checking: flycheck
@@ -578,9 +588,13 @@ savehist saves history over sessions
 
 *** Python
 *** Scala
+
+I had a lot of trouble making lsp and metals work.
+Finally what did work was not having PGP installed because in order to install
+metals, coursier-cli also needs to be installed and it's certificate is expired.
+
 #+begin_src emacs-lisp
   (use-package scala-mode
-    :mode "\\.sc\\'"
     :interpreter
     ("scala" . scala-mode))
 
@@ -662,6 +676,12 @@ Rg not supported by projectile, expects ripgrep
     :diminish
     :bind ("C-=" . er/expand-region))
 #+end_src
+* Convenience
+#+BEGIN_SRC emacs-lisp
+  (use-package google-this
+    :diminish
+  :config (google-this-mode 1))
+#+END_SRC
 
 * Packagesg to explore
 - general
