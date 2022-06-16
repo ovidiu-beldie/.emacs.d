@@ -344,7 +344,7 @@ savehist saves history over sessions
     (use-package org-bullets
       :after org
       :hook (org-mode-hook . org-bullets-mode)
-      :custom (org-bullets-bullet-list '("\u2780" "\u2781" "/u2782" "/u2783" "/u2784" "/u2785" "/u2786" "/u2787")))
+      :custom (org-bullets-bullet-list '("\u2780" "\u2781" "\u2782" "\u2783" "\u2784" "\u2785" "/u2786" "\u2787")))
 #+END_SRC
 
 ** Roam
@@ -519,7 +519,7 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 110)
+  (set-face-attribute 'default nil :font "Menlo" :height 140)
   (load-theme 'modus-operandi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
@@ -669,9 +669,18 @@ Rg not supported by projectile, expects ripgrep
    
 * Project tools
 ** Source control: magit
+
+Forge doesn't work on Monterey, same sqlite issue as for Scala metals. However
+switching to sqlite3 doesn't seem to help either.
+
 #+begin_src emacs-lisp
   (use-package magit
     :bind ("C-c g" . magit-status))
+
+  (use-package forge
+    :disabled
+    :after magit
+    :custom (forge-database-connector 'sqlite3))
 #+end_src
 
 ** Working with repos: projectile
@@ -710,15 +719,17 @@ Rg not supported by projectile, expects ripgrep
 #+END_SRC
 
 * Packagesg to explore
+- consult-dir
+- popper
+- dir-hacks
 - general
 - smerge
-- live python
+- live python      
 - org-html-themes
 - elpy
 - web-mode
 - noflet
 - eglot
-- magit forge
 - magit evil
 - restclient
 - dumb-jump
@@ -727,15 +738,12 @@ Rg not supported by projectile, expects ripgrep
 - org-msg
 - smartparens
 - silversearcher
-- eyebrowse
 - wgrep
 - anzu
 - fzf
 - darkroom
 - org-tree-slide
-- org-superstar
 - emmet
-- org-roam
 - org-ql
 - pcre2el
 - olivetti
