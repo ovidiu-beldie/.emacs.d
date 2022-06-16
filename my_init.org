@@ -257,9 +257,13 @@ savehist saves history over sessions
 #+begin_src emacs-lisp
   (use-package yasnippet
     :diminish
-    :config (yas-global-mode 1))
+    :config
+    (yas-global-mode 1)
+    (setq yas-snippet-dir "~/.emacs.d/elpa/yasnippet-snippets-1.0/snippets")
+    )
 
-  (use-package yasnippet-snippets :diminish)
+  (use-package yasnippet-snippets
+    :diminish)
 
 #+end_src
 
@@ -318,13 +322,29 @@ savehist saves history over sessions
     :bind (
 	   ("C-c l" . org-store-link)
 	   ("C-c a" . org-agenda)
-	   ("C-c c" . org-capture)))
+	   ("C-c c" . org-capture))
+    :config
+    (setq org-ellipsis " \u25bc"
+	  org-hide-emphasis-markers t)
+    )
+
+  (dolist (face '((org-level-1 . 1.25)
+		    (org-level-2 . 1.20)
+		    (org-level-3 . 1.15)
+		    (org-level-4 . 1.1)
+		    (org-level-5 . 1.1)
+		    (org-level-6 . 1.0)
+		    (org-level-7 . 1.0)
+		    (org-level-8 . 1.0)))
+      (set-face-attribute (car face) nil :font "Monaco" :weight 'medium :height (cdr face)))
 #+end_src
 
 ** Bullets
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :hook (org-mode-hook . org-bullets-mode))
+    (use-package org-bullets
+      :after org
+      :hook (org-mode-hook . org-bullets-mode)
+      :custom (org-bullets-bullet-list '("\u2780" "\u2781" "/u2782" "/u2783" "/u2784" "/u2785" "/u2786" "/u2787")))
 #+END_SRC
 
 ** Roam
@@ -465,6 +485,12 @@ The solution was to use emacsql-sqlite3.
 
 #+end_src
 
+** Sublime themes (programmer names)
+
+#+BEGIN_SRC emacs-lisp
+(use-package sublime-themes)
+#+END_SRC
+
 ** Modus themes
 #+begin_src emacs-lisp
   (use-package modus-themes)
@@ -493,7 +519,7 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 125)
+  (set-face-attribute 'default nil :font "Menlo" :height 110)
   (load-theme 'modus-operandi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
