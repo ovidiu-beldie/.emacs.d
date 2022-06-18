@@ -324,6 +324,7 @@ savehist saves history over sessions
 	   ("C-c a" . org-agenda)
 	   ("C-c c" . org-capture))
     :config
+    (setq org-agenda-files (list "~/Dropbox/work_notes/notes/todos.org"))
     (setq org-ellipsis " \u25bc"
 	  org-hide-emphasis-markers t)
     )
@@ -362,7 +363,7 @@ The solution was to use emacsql-sqlite3.
     (setq org-roam-v2-ack t)
     (setq org-roam-database-connector 'sqlite3)
     :custom
-    (org-roam-directory "~/cwt/notes/roam")
+    (org-roam-directory "~/Dropbox/work_notes/notes/roam")
     (org-roam-completion-everywhere t)
     :bind (("C-c n l" . org-roam-buffer-toggle)
 	   ("C-c n f" . org-roam-node-find)
@@ -519,7 +520,7 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 140)
+  (set-face-attribute 'default nil :font "Menlo" :height 130)
   (load-theme 'modus-operandi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
@@ -739,6 +740,7 @@ switching to sqlite3 doesn't seem to help either.
 - smartparens
 - silversearcher
 - wgrep
+- org-pandoc-import
 - anzu
 - fzf
 - darkroom
@@ -751,6 +753,7 @@ switching to sqlite3 doesn't seem to help either.
 - all-the-icons-dired
 - dired-subtree
 - dired-narrow
+- dired-hacks
 - iedit
 - hydra
 - git-timemachine
