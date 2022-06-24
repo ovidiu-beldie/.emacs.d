@@ -14,6 +14,7 @@ contribution to the community.
 - cmake -> brew, needed by libvterm
 - ispell
 - ripgrep
+  
 * Interoperability
 ** Hash key on Mac, UK keyboard
 #+begin_src emacs-lisp
@@ -324,7 +325,7 @@ savehist saves history over sessions
 	   ("C-c a" . org-agenda)
 	   ("C-c c" . org-capture))
     :config
-    (setq org-agenda-files (list "~/Dropbox/work_notes/notes/todos.org"))
+    (setq org-agenda-files (list "~/Dropbox/work_notes/todos.org"))
     (setq org-ellipsis " \u25bc"
 	  org-hide-emphasis-markers t)
     )
@@ -363,7 +364,7 @@ The solution was to use emacsql-sqlite3.
     (setq org-roam-v2-ack t)
     (setq org-roam-database-connector 'sqlite3)
     :custom
-    (org-roam-directory "~/Dropbox/work_notes/notes/roam")
+    (org-roam-directory "~/Dropbox/work_notes/roam")
     (org-roam-completion-everywhere t)
     :bind (("C-c n l" . org-roam-buffer-toggle)
 	   ("C-c n f" . org-roam-node-find)
@@ -520,7 +521,7 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 130)
+  (set-face-attribute 'default nil :font "Menlo" :height 120)
   (load-theme 'modus-operandi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
@@ -545,6 +546,12 @@ The solution was to use emacsql-sqlite3.
 ** Dired
 #+begin_src emacs-lisp
   (setq delete-by-moving-to-trash t)
+
+  (use-package dired-subtree
+    :config
+    (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
+    (bind-key "<backtab>" #'dired-subtree-cycle dired-mode map)
+    )
 #+end_src
 
 ** Modeline
@@ -716,7 +723,9 @@ switching to sqlite3 doesn't seem to help either.
 #+BEGIN_SRC emacs-lisp
   (use-package google-this
     :diminish
-  :config (google-this-mode 1))
+  :config
+  (global-set-key (kbd "C-c w") 'google-this-mode-submap)
+  (google-this-mode 1))
 #+END_SRC
 
 * Packagesg to explore
