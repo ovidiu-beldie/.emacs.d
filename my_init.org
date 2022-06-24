@@ -14,7 +14,7 @@ contribution to the community.
 - cmake -> brew, needed by libvterm
 - ispell
 - ripgrep
-  
+
 * Interoperability
 ** Hash key on Mac, UK keyboard
 #+begin_src emacs-lisp
@@ -319,16 +319,19 @@ savehist saves history over sessions
 * Org
 ** Org config
 #+begin_src emacs-lisp
-  (use-package org
-    :bind (
-	   ("C-c l" . org-store-link)
-	   ("C-c a" . org-agenda)
-	   ("C-c c" . org-capture))
-    :config
-    (setq org-agenda-files (list "~/Dropbox/work_notes/todos.org"))
-    (setq org-ellipsis " \u25bc"
-	  org-hide-emphasis-markers t)
-    )
+    (use-package org
+      :bind (
+	     ("C-c l" . org-store-link)
+	     ("C-c a" . org-agenda)
+	     ("C-c c" . org-capture))
+      :config
+      (setq org-agenda-files
+	    (list
+  	   "~/Dropbox/work_notes/notes/todos.org"
+;;	     "~/Dropbox/personal_notes/roam/todo.org" ))
+      (setq org-ellipsis " \u25bc"
+	    org-hide-emphasis-markers t)
+      (setq org-log-into-drawer "LOGBOOK")
 
   (dolist (face '((org-level-1 . 1.25)
 		    (org-level-2 . 1.20)
@@ -339,14 +342,17 @@ savehist saves history over sessions
 		    (org-level-7 . 1.0)
 		    (org-level-8 . 1.0)))
       (set-face-attribute (car face) nil :font "Monaco" :weight 'medium :height (cdr face)))
+      )
+
+
 #+end_src
 
 ** Bullets
 #+BEGIN_SRC emacs-lisp
-    (use-package org-bullets
-      :after org
-      :hook (org-mode-hook . org-bullets-mode)
-      :custom (org-bullets-bullet-list '("\u2780" "\u2781" "\u2782" "\u2783" "\u2784" "\u2785" "/u2786" "\u2787")))
+  (use-package org-bullets
+    :after org
+    :hook (org-mode-hook . org-bullets-mode)
+    :custom (org-bullets-bullet-list '("\u2780" "\u2781" "\u2782" "\u2783" "\u2784" "\u2785" "/u2786" "\u2787")))
 #+END_SRC
 
 ** Roam
@@ -490,7 +496,7 @@ The solution was to use emacsql-sqlite3.
 ** Sublime themes (programmer names)
 
 #+BEGIN_SRC emacs-lisp
-(use-package sublime-themes)
+  (use-package sublime-themes)
 #+END_SRC
 
 ** Modus themes
@@ -521,8 +527,8 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 120)
-  (load-theme 'modus-operandi t)
+  (set-face-attribute 'default nil :font "Menlo" :height 130)
+  (load-theme 'modus-vivendi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
   ;; (set -cursor-color 'orange)
@@ -750,6 +756,14 @@ switching to sqlite3 doesn't seem to help either.
 - silversearcher
 - wgrep
 - org-pandoc-import
+- kind-icon
+- corfu
+- org-roam-ui
+- straight
+- consult-flycheck
+- consult-projectile
+- consult-dir
+- org-pandoc-import
 - anzu
 - fzf
 - darkroom
@@ -770,6 +784,8 @@ switching to sqlite3 doesn't seem to help either.
 - jedi
 - hl-line+
 - visual fill mode
+- jupyter
+- whitespace-cleanup-mode
 - doct
 - dashboard
 * TODO Issues
