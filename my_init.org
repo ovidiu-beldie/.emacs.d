@@ -319,30 +319,31 @@ savehist saves history over sessions
 * Org
 ** Org config
 #+begin_src emacs-lisp
-    (use-package org
-      :bind (
-	     ("C-c l" . org-store-link)
-	     ("C-c a" . org-agenda)
-	     ("C-c c" . org-capture))
-      :config
-      (setq org-agenda-files
-	    (list
-  	   "~/Dropbox/work_notes/notes/todos.org"
-;;	     "~/Dropbox/personal_notes/roam/todo.org" ))
-      (setq org-ellipsis " \u25bc"
-	    org-hide-emphasis-markers t)
-      (setq org-log-into-drawer "LOGBOOK")
+      (use-package org
+	:bind (
+	       ("C-c l" . org-store-link)
+	       ("C-c a" . org-agenda)
+	       ("C-c c" . org-capture))
+	:config
+	(setq org-agenda-files
+	      (list
+	     "~/Dropbox/work_notes/notes/roam/todo.org"
+  ;;	     "~/Dropbox/personal_notes/roam/todo.org"
+	     ))
+	(setq org-ellipsis " \u25bc"
+	      org-hide-emphasis-markers t)
+	(setq org-log-into-drawer "LOGBOOK")
 
-  (dolist (face '((org-level-1 . 1.25)
-		    (org-level-2 . 1.20)
-		    (org-level-3 . 1.15)
-		    (org-level-4 . 1.1)
-		    (org-level-5 . 1.1)
-		    (org-level-6 . 1.0)
-		    (org-level-7 . 1.0)
-		    (org-level-8 . 1.0)))
-      (set-face-attribute (car face) nil :font "Monaco" :weight 'medium :height (cdr face)))
-      )
+    (dolist (face '((org-level-1 . 1.25)
+		      (org-level-2 . 1.20)
+		      (org-level-3 . 1.15)
+		      (org-level-4 . 1.1)
+		      (org-level-5 . 1.1)
+		      (org-level-6 . 1.0)
+		      (org-level-7 . 1.0)
+		      (org-level-8 . 1.0)))
+	(set-face-attribute (car face) nil :font "Monaco" :weight 'medium :height (cdr face)))
+	)
 
 
 #+end_src
