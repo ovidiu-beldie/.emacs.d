@@ -6,6 +6,7 @@ contribution to the community.
 - Mike Zamansky [[https://github.com/zamansky/dot-emacs][Mike's setup]]
 
 * Prerequisits (on OS X)
+- cmake, libtool
 - fira code font -> brew
 - all the fonts
 - JDK -> oracle?
@@ -260,7 +261,7 @@ savehist saves history over sessions
     :diminish
     :config
     (yas-global-mode 1)
-    (setq yas-snippet-dir "~/.emacs.d/elpa/yasnippet-snippets-1.0/snippets")
+    (setq yas-snippet-dir "~/Dropbox/work_notes/emacs/yas")
     )
 
   (use-package yasnippet-snippets
@@ -386,8 +387,21 @@ The solution was to use emacsql-sqlite3.
     )
 #+END_SRC
 
+** Babel
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((shell . t)
+	(python . t)
+	))
+
+(setq org-babel-python-command "python3")
+
+#+END_SRC
+
 * Eye candy
 ** All the icons
+- need to run ~M-x all-the-icons-install-fonts~ to install the resource fonts
 #+begin_src emacs-lisp
   (use-package all-the-icons)
 #+end_src
@@ -528,7 +542,7 @@ The solution was to use emacsql-sqlite3.
   (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; start maximized
   (setq inhibit-splash-screen t) ; no splash screen
   (setq visible-bell t) ; no audio bell
-  (set-face-attribute 'default nil :font "Menlo" :height 130)
+  (set-face-attribute 'default nil :font "Menlo" :height 125)
   (load-theme 'modus-vivendi t)
   (column-number-mode) ; show col nr in mode line
   (global-hl-line-mode) ; highlight current line
@@ -557,7 +571,7 @@ The solution was to use emacsql-sqlite3.
   (use-package dired-subtree
     :config
     (bind-key "<tab>" #'dired-subtree-toggle dired-mode-map)
-    (bind-key "<backtab>" #'dired-subtree-cycle dired-mode map)
+    (bind-key "<backtab>" #'dired-subtree-cycle dired-mode-map)
     )
 #+end_src
 
@@ -605,6 +619,7 @@ The solution was to use emacsql-sqlite3.
   (setq lsp-keymap-prefix "C-c l")
 
   (use-package lsp-mode
+    :diminish
     :hook ((prog-mode . lsp)
 	   (lsp-mode . lsp-enable-which-key-integration))
     :commands lsp
@@ -789,6 +804,11 @@ switching to sqlite3 doesn't seem to help either.
 - whitespace-cleanup-mode
 - doct
 - dashboard
+- bycicle
+- keycast
+- foldout
+- outline-minor-faces
+- openwith
 * TODO Issues
 - yasnippets snippets
 - company-box
